@@ -7,7 +7,17 @@ export default function index() {
 	return (
 		<View style={styles.page}>
 			<View style={styles.container}>
-				<Mapbox.MapView style={styles.map} />
+				<Mapbox.MapView
+					style={styles.map}
+					styleURL="mapbox://styles/mapbox/dark-v11"
+				>
+					<Mapbox.UserLocation />
+					<Mapbox.Camera
+						zoomLevel={15}
+						centerCoordinate={[24.7097, 48.9226]}
+						followUserLocation={true}
+					/>
+				</Mapbox.MapView>
 			</View>
 		</View>
 	);
@@ -19,12 +29,17 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "white",
+		position: "relative",
 	},
 	container: {
-		height: "64%",
-		width: "64%",
+		flex: 1,
+		height: "100%",
+		width: "100%",
 	},
 	map: {
 		flex: 1,
+		height: "100%",
+		width: "100%",
+		position: "absolute",
 	},
 });
