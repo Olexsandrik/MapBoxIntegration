@@ -3,16 +3,51 @@ import { StyleSheet, View } from "react-native";
 import { MAP_BOX_TOKEN } from "@env";
 import { featureCollection, point } from "@turf/helpers";
 import pin from "../assets/pin.png";
-
+import routeResponse from "../data/route.json";
 import scooters from "../data/scooters.json";
+import { getDirections } from "@/server/directions";
+import { OnPressEvent } from "@rnmapbox/maps/lib/typescript/src/types/OnPressEvent";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
 
 // Replace with your actual Mapbox access token
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
-export default function index() {
+export default function Index() {
+	const [location, setLocation] = useState<any | null>(null);
+	const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+	const [direction, setDirection] = useState<any>();
+
+	useEffect(() => {
+		async function getCurrentLocation() {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				setErrorMsg("Permission to access location was denied");
+				return;
+			}
+
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		}
+
+		getCurrentLocation();
+	}, []);
+
 	const scootersFeatures = scooters.map((scooter) =>
 		point([scooter.long, scooter.lat])
 	);
 
+	const directionCoordinates = direction?.routes[0].geometry.coordinates;
+
+	const onPintPress = async (event: OnPressEvent) => {
+		const newDirectionCoordinates = await getDirections(
+			[location.coords.longitude, location.coords.latitude],
+			[event.coordinates.longitude, event.coordinates.latitude]
+		);
+		setDirection(newDirectionCoordinates);
+	};
+
+	console.log("location", location);
 	return (
 		<View style={styles.page}>
 			<View style={styles.container}>
@@ -29,9 +64,7 @@ export default function index() {
 					/>
 					<Mapbox.Images images={{ pin }} />
 					<Mapbox.ShapeSource
-						onPress={(event) => {
-							console.log(JSON.stringify(event, null, 2));
-						}}
+						onPress={onPintPress}
 						id="scooters"
 						cluster={true}
 						shape={featureCollection(scootersFeatures)}
@@ -69,6 +102,31 @@ export default function index() {
 							}}
 						/>
 					</Mapbox.ShapeSource>
+
+					{directionCoordinates && (
+						<Mapbox.ShapeSource
+							id="routerSource"
+							shape={{
+								properties: {},
+								type: "Feature",
+								geometry: {
+									type: "LineString",
+									coordinates: directionCoordinates,
+								},
+							}}
+						>
+							<Mapbox.LineLayer
+								id="routerLine"
+								style={{
+									lineColor: "#42A2D9",
+									lineWidth: 7,
+									lineCap: "round",
+									lineJoin: "round",
+									lineDasharray: [0, 4, 3],
+								}}
+							/>
+						</Mapbox.ShapeSource>
+					)}
 				</Mapbox.MapView>
 			</View>
 		</View>
