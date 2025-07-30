@@ -2,9 +2,17 @@ import Mapbox from "@rnmapbox/maps";
 import { StyleSheet, View } from "react-native";
 import { MAP_BOX_TOKEN } from "@env";
 import { featureCollection, point } from "@turf/helpers";
+import pin from "../assets/pin.png";
 
+import scooters from "../data/scooters.json";
+
+// Replace with your actual Mapbox access token
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
 export default function index() {
+	const scootersFeatures = scooters.map((scooter) =>
+		point([scooter.long, scooter.lat])
+	);
+
 	return (
 		<View style={styles.page}>
 			<View style={styles.container}>
@@ -14,7 +22,7 @@ export default function index() {
 				>
 					<Mapbox.UserLocation />
 					<Mapbox.Camera
-						zoomLevel={15}
+						zoomLevel={10}
 						centerCoordinate={[24.7097, 48.9226]}
 						followUserLocation={true}
 					/>
@@ -23,14 +31,20 @@ export default function index() {
 						puckBearingEnabled={true}
 						puckBearing="heading"
 					/>
-
+					<Mapbox.Images images={{ pin }} />
 					<Mapbox.ShapeSource
 						id="scooters"
-						shape={featureCollection([
-							point([2.1589, 41.3907]),
-							point([2.1589, 41.3907]),
-						])}
-					></Mapbox.ShapeSource>
+						shape={featureCollection(scootersFeatures)}
+					>
+						<Mapbox.SymbolLayer
+							id="scooters-label"
+							style={{
+								iconImage: "pin",
+								iconSize: 0.5,
+								iconAllowOverlap: true,
+							}}
+						/>
+					</Mapbox.ShapeSource>
 				</Mapbox.MapView>
 			</View>
 		</View>
