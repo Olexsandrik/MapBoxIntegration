@@ -1,6 +1,7 @@
 import Mapbox from "@rnmapbox/maps";
 import { StyleSheet, View } from "react-native";
 import { MAP_BOX_TOKEN } from "@env";
+import { featureCollection, point } from "@turf/helpers";
 
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
 export default function index() {
@@ -17,6 +18,19 @@ export default function index() {
 						centerCoordinate={[24.7097, 48.9226]}
 						followUserLocation={true}
 					/>
+					<Mapbox.LocationPuck
+						visible={true}
+						puckBearingEnabled={true}
+						puckBearing="heading"
+					/>
+
+					<Mapbox.ShapeSource
+						id="scooters"
+						shape={featureCollection([
+							point([2.1589, 41.3907]),
+							point([2.1589, 41.3907]),
+						])}
+					></Mapbox.ShapeSource>
 				</Mapbox.MapView>
 			</View>
 		</View>
