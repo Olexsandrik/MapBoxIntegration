@@ -21,11 +21,7 @@ export default function index() {
 					styleURL="mapbox://styles/mapbox/dark-v11"
 				>
 					<Mapbox.UserLocation />
-					<Mapbox.Camera
-						zoomLevel={10}
-						centerCoordinate={[24.7097, 48.9226]}
-						followUserLocation={true}
-					/>
+					<Mapbox.Camera zoomLevel={15} centerCoordinate={[2.1589, 41.3907]} />
 					<Mapbox.LocationPuck
 						visible={true}
 						puckBearingEnabled={true}
@@ -33,15 +29,43 @@ export default function index() {
 					/>
 					<Mapbox.Images images={{ pin }} />
 					<Mapbox.ShapeSource
+						onPress={(event) => {
+							console.log(JSON.stringify(event, null, 2));
+						}}
 						id="scooters"
+						cluster={true}
 						shape={featureCollection(scootersFeatures)}
 					>
 						<Mapbox.SymbolLayer
 							id="scooters-label"
 							style={{
+								textField: ["get", "point_count"],
+								textSize: 18,
+								textColor: "white",
+								textPitchAlignment: "map",
+							}}
+						/>
+
+						<Mapbox.CircleLayer
+							id="scooters-count"
+							belowLayerID="cluster-count"
+							filter={["has", "point_count"]}
+							style={{
+								circleColor: "red",
+
+								circleRadius: 10,
+								circleStrokeWidth: 2,
+								circleStrokeColor: "white",
+							}}
+						/>
+						<Mapbox.SymbolLayer
+							id="scooters-label"
+							filter={["has", "point_count"]}
+							style={{
 								iconImage: "pin",
 								iconSize: 0.5,
 								iconAllowOverlap: true,
+								iconAnchor: "bottom",
 							}}
 						/>
 					</Mapbox.ShapeSource>
