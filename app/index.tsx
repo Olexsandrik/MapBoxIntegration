@@ -13,25 +13,25 @@ import * as Location from "expo-location";
 // Replace with your actual Mapbox access token
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
 export default function Index() {
-	const [location, setLocation] = useState<any | null>(null);
-	const [errorMsg, setErrorMsg] = useState<string | null>(null);
+	// const [location, setLocation] = useState<any | null>(null);
+	// const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
 	const [direction, setDirection] = useState<any>();
 
-	useEffect(() => {
-		async function getCurrentLocation() {
-			let { status } = await Location.requestForegroundPermissionsAsync();
-			if (status !== "granted") {
-				setErrorMsg("Permission to access location was denied");
-				return;
-			}
+	// useEffect(() => {
+	// 	async function getCurrentLocation() {
+	// 		let { status } = await Location.requestForegroundPermissionsAsync();
+	// 		if (status !== "granted") {
+	// 			setErrorMsg("Permission to access location was denied");
+	// 			return;
+	// 		}
 
-			let location = await Location.getCurrentPositionAsync({});
-			setLocation(location);
-		}
+	// 		let location = await Location.getCurrentPositionAsync({});
+	// 		setLocation(location);
+	// 	}
 
-		getCurrentLocation();
-	}, []);
+	// 	getCurrentLocation();
+	// }, []);
 
 	const scootersFeatures = scooters.map((scooter) =>
 		point([scooter.long, scooter.lat])
@@ -40,8 +40,10 @@ export default function Index() {
 	const directionCoordinates = direction?.routes[0].geometry.coordinates;
 
 	const onPintPress = async (event: OnPressEvent) => {
+		const userLocation = await Location.getCurrentPositionAsync();
+
 		const newDirectionCoordinates = await getDirections(
-			[location.coords.longitude, location.coords.latitude],
+			[userLocation.coords.longitude, userLocation.coords.latitude],
 			[event.coordinates.longitude, event.coordinates.latitude]
 		);
 		setDirection(newDirectionCoordinates);
