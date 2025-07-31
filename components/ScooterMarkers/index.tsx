@@ -17,6 +17,11 @@ export default function ScooterMarkers({
 		}
 		setSelectedScooter(event);
 	};
+
+	console.log(
+		"featureCollection(points)",
+		JSON.stringify(featureCollection(points), null, 2)
+	);
 	return (
 		<Mapbox.ShapeSource
 			onPress={(event) => onPintPress(event)}
