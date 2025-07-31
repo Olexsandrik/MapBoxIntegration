@@ -11,17 +11,13 @@ export default function ScooterMarkers({
 	const points = scooters.map((scooter) =>
 		point([scooter.long, scooter.lat], { scooter })
 	);
+
 	const onPintPress = async (event: OnPressEvent) => {
 		if (event.features[0]?.properties?.scooter) {
 			setSelectedScooter(event.features[0].properties.scooter);
 		}
-		setSelectedScooter(event);
 	};
 
-	console.log(
-		"featureCollection(points)",
-		JSON.stringify(featureCollection(points), null, 2)
-	);
 	return (
 		<Mapbox.ShapeSource
 			onPress={(event) => onPintPress(event)}

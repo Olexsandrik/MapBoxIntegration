@@ -2,40 +2,41 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { getDirections } from "@/server/directions";
 
-const ScooterContext = createContext({});
+const CategoryContext = createContext({});
 
-export default function ScooterProvider({
+export default function CategoryProvider({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const [selectedScooter, setSelectedScooter] = useState<any>(null);
+	const [selectedCategory, setSelectedCategory] = useState<any>(null);
 	const [direction, setDirection] = useState<any>();
 	useEffect(() => {
 		const fetchDirections = async () => {
 			const userLocation = await Location.getCurrentPositionAsync();
 
+		
+
 			const newDirectionCoordinates = await getDirections(
 				[userLocation.coords.longitude, userLocation.coords.latitude],
 				[
-					selectedScooter.coordinates.longitude,
-					selectedScooter.coordinates.latitude,
+					selectedCategory[0],
+					selectedCategory[1],
 				]
 			);
 
 			setDirection(newDirectionCoordinates);
 		};
-		if (selectedScooter) {
+		if (selectedCategory) {
 			fetchDirections();
 		}
-	}, [selectedScooter, direction]);
+	}, [selectedCategory, direction]);
 
-	console.log("selectedScooter", selectedScooter);
 	return (
-		<ScooterContext.Provider
+		<CategoryContext.Provider
 			value={{
-				selectedScooter,
-				setSelectedScooter,
+				selectedCategory,
+				setSelectedCategory,
 				direction,
 				directionCoordinates: direction?.routes[0].geometry.coordinates,
 				routeTime: direction?.routes[0].duration,
@@ -43,14 +44,14 @@ export default function ScooterProvider({
 			}}
 		>
 			{children}
-		</ScooterContext.Provider>
+		</CategoryContext.Provider>
 	);
 }
 
-export const useScooter = () => {
-	const context = useContext(ScooterContext);
+export const useCategory = () => {
+	const context = useContext(CategoryContext);
 	if (!context) {
-		throw new Error("useScooter must be used within a ScooterProvider");
+		throw new Error("useScooter must be used within a CategoryProvider");
 	}
 	return context;
 };

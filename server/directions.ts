@@ -8,16 +8,19 @@ export async function getDirections(from: any, to: any) {
 		`${BASE_URL}/driving/${from[0]},${from[1]};${to[0]},${to[1]}?alternatives=true&annotations=distance%2Cduration&geometries=geojson&language=en&overview=full&steps=true&access_token=${MAP_BOX_TOKEN}`
 	);
 	const data = await response.json();
-	// console.log(JSON.stringify(data, null, 2));
+
 	return data;
 }
 
-export async function getInfoCategories(category: string) {
+export async function getInfoCategories(
+	category: string,
+	lat: number,
+	lon: number
+) {
 	const response = await fetch(
-		`${BASE_URL_CATEGORIES}/search/searchbox/v1/list/category?access_token=${MAP_BOX_TOKEN}`
+		`${BASE_URL_CATEGORIES}/search/searchbox/v1/category/${category}?proximity=${lon},${lat}&limit=25&access_token=${MAP_BOX_TOKEN}`
 	);
 	const data = await response.json();
 
-	console.log("data", JSON.stringify(data, null, 2));
 	return data;
 }
