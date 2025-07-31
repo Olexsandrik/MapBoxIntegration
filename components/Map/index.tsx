@@ -14,7 +14,8 @@ import { getInfoCategories } from "../../server/directions";
 
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
 export default function Map() {
-	const { directionCoordinates } = useCategory();
+	const { directionCoordinates, selectedCategory, setSelectedCategory } =
+		useCategory();
 
 	const [places, setPlaces] = useState<any[]>([]);
 	const [showPlacesList, setShowPlacesList] = useState(false);
@@ -95,13 +96,18 @@ export default function Map() {
 						puckBearingEnabled={true}
 						puckBearing="heading"
 					/>
-					<Mapbox.Images images={{ pin }} />
+
 					{/* <ScooterMarkers
 						setSelectedScooter={setSelectedScooter}
 						places={places}
 					/> */}
 
-					<CategoryMarkers places={places} onPlacePress={handlePlacePress} />
+					<CategoryMarkers
+						places={places}
+						onPlacePress={handlePlacePress}
+						selectedCategory={selectedCategory}
+						setSelectedCategory={setSelectedCategory}
+					/>
 
 					{directionCoordinates && (
 						<LineRoute coordinates={directionCoordinates} />

@@ -15,14 +15,9 @@ export default function CategoryProvider({
 		const fetchDirections = async () => {
 			const userLocation = await Location.getCurrentPositionAsync();
 
-		
-
 			const newDirectionCoordinates = await getDirections(
 				[userLocation.coords.longitude, userLocation.coords.latitude],
-				[
-					selectedCategory[0],
-					selectedCategory[1],
-				]
+				[selectedCategory[0], selectedCategory[1]]
 			);
 
 			setDirection(newDirectionCoordinates);
