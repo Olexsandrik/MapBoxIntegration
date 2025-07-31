@@ -121,13 +121,6 @@ export default function Map() {
 			/>
 
 			<LocationButton onPress={handleLocationPress} />
-
-			<PlacesList
-				places={places}
-				visible={showPlacesList}
-				onPlacePress={handlePlacePress}
-				onClose={() => setShowPlacesList(false)}
-			/>
 		</View>
 	);
 }

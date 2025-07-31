@@ -22,5 +22,7 @@ export async function getInfoCategories(
 	);
 	const data = await response.json();
 
+	console.log("make requset", data);
+
 	return data;
 }

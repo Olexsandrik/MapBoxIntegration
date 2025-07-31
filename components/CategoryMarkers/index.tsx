@@ -53,16 +53,16 @@ export default function CategoryMarkers({
 					iconSize: [
 						"case",
 						["==", ["get", "category"], "restaurant"],
-						1.2, // Більший для ресторанів
+						1.2,
 						["==", ["get", "category"], "hotel"],
-						1.0, // Звичайний для готелів
+						1.0,
 						["==", ["get", "category"], "hospital"],
-						1.1, // Трохи більший для лікарень
+						1.1,
 						["==", ["get", "category"], "shop"],
-						0.9, // Менший для магазинів
+						0.9,
 						["==", ["get", "category"], "entertainment"],
-						1.3, // Найбільший для розваг
-						0.8, // За замовчуванням
+						1.3,
+						0.8,
 					],
 					iconAllowOverlap: true,
 					iconAnchor: "bottom",
