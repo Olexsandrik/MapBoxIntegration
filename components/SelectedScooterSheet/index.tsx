@@ -3,6 +3,7 @@ import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useEffect, useRef } from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
+import ButtonShowRoute from "../ButtonShowRoute";
 
 export default function SelectedScooterSheet() {
 	const buttonSheftRef = useRef<BottomSheet>(null);
@@ -12,7 +13,6 @@ export default function SelectedScooterSheet() {
 	useEffect(() => {
 		if (selectedScooter) {
 			buttonSheftRef.current?.expand();
-			console.log(selectedScooter);
 		}
 	}, [selectedScooter]);
 
@@ -43,7 +43,7 @@ export default function SelectedScooterSheet() {
 						<Text style={{ color: "white" }}>Lime -S</Text>
 						<Text style={{ color: "white" }}>
 							id-{selectedScooter?.id} Madison Avenue
-						</Text>{" "}
+						</Text>
 					</View>
 					<View>
 						<FontAwesome6 name="bolt-lightning" size={24} color="green" />
@@ -59,6 +59,16 @@ export default function SelectedScooterSheet() {
 					</View>
 				</View>
 			</BottomSheetView>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<ButtonShowRoute />
+			</View>
 		</BottomSheet>
 	);
 }

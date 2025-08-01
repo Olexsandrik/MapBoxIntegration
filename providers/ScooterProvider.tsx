@@ -11,16 +11,20 @@ export default function ScooterProvider({
 }) {
 	const [selectedScooter, setSelectedScooter] = useState<any>(null);
 	const [direction, setDirection] = useState<any>();
+	const [isRouteVisible, setIsRouteVisible] = useState(false);
 	useEffect(() => {
 		const fetchDirections = async () => {
 			const userLocation = await Location.getCurrentPositionAsync();
 
 			const newDirectionCoordinates = await getDirections(
 				[userLocation.coords.longitude, userLocation.coords.latitude],
-				[
-					selectedScooter.coordinates.longitude,
-					selectedScooter.coordinates.latitude,
-				]
+				[selectedScooter.long, selectedScooter.lat]
+			);
+
+			console.log(
+				"newDirectionCoordinates",
+				selectedScooter.long,
+				selectedScooter.lat
 			);
 
 			setDirection(newDirectionCoordinates);
@@ -28,7 +32,7 @@ export default function ScooterProvider({
 		if (selectedScooter) {
 			fetchDirections();
 		}
-	}, [selectedScooter, direction]);
+	}, [selectedScooter]);
 
 	console.log("selectedScooter", selectedScooter);
 	return (
@@ -40,6 +44,8 @@ export default function ScooterProvider({
 				directionCoordinates: direction?.routes[0].geometry.coordinates,
 				routeTime: direction?.routes[0].duration,
 				routeDistance: direction?.routes[0].distance,
+				isRouteVisible,
+				setIsRouteVisible,
 			}}
 		>
 			{children}

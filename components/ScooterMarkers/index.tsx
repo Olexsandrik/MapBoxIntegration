@@ -15,8 +15,8 @@ export default function ScooterMarkers({
 		if (event.features[0]?.properties?.scooter) {
 			setSelectedScooter(event.features[0].properties.scooter);
 		}
-		setSelectedScooter(event);
 	};
+
 	return (
 		<Mapbox.ShapeSource
 			onPress={(event) => onPintPress(event)}
@@ -49,6 +49,16 @@ export default function ScooterMarkers({
 			<Mapbox.SymbolLayer
 				id="scooters-label"
 				filter={["has", "point_count"]}
+				style={{
+					iconImage: "pin",
+					iconSize: 0.5,
+					iconAllowOverlap: true,
+					iconAnchor: "bottom",
+				}}
+			/>
+			<Mapbox.SymbolLayer
+				id="scooters-symbol"
+				filter={["!", ["has", "point_count"]]}
 				style={{
 					iconImage: "pin",
 					iconSize: 0.5,

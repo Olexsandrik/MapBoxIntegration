@@ -5,6 +5,7 @@ import pin from "../../assets/pin.png";
 import { useScooter } from "@/providers/ScooterProvider";
 import LineRoute from "../LineRoute";
 import ScooterMarkers from "../ScooterMarkers";
+import { useState } from "react";
 
 Mapbox.setAccessToken(`${MAP_BOX_TOKEN}`);
 export default function Map() {
@@ -15,6 +16,7 @@ export default function Map() {
 		directionCoordinates,
 		routeTime,
 		routeDistance,
+		isRouteVisible,
 	} = useScooter();
 
 	return (
@@ -34,7 +36,7 @@ export default function Map() {
 					<Mapbox.Images images={{ pin }} />
 					<ScooterMarkers setSelectedScooter={setSelectedScooter} />
 
-					{directionCoordinates && (
+					{isRouteVisible && directionCoordinates && (
 						<LineRoute coordinates={directionCoordinates} />
 					)}
 				</Mapbox.MapView>
