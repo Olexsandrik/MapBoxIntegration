@@ -9,7 +9,7 @@ export default function Index() {
 	return (
 		<ScooterProvider>
 			<GestureHandlerRootView style={{ flex: 1 }}>
-				<Map /	>
+				<Map />
 				<SelectedScooterSheet />
 				<StatusBar barStyle="light-content" />
 			</GestureHandlerRootView>
