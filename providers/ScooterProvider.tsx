@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import * as Location from "expo-location";
 import { getDirections } from "@/server/directions";
+import * as Location from "expo-location";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ScooterContext = createContext({});
 
@@ -19,12 +19,6 @@ export default function ScooterProvider({
 			const newDirectionCoordinates = await getDirections(
 				[userLocation.coords.longitude, userLocation.coords.latitude],
 				[selectedScooter.long, selectedScooter.lat]
-			);
-
-			console.log(
-				"newDirectionCoordinates",
-				selectedScooter.long,
-				selectedScooter.lat
 			);
 
 			setDirection(newDirectionCoordinates);

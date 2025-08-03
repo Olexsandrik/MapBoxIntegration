@@ -1,19 +1,22 @@
-import { StatusBar, Text, View } from "react-native";
 import Map from "@/components/Map";
 import ScooterProvider from "@/providers/ScooterProvider";
+import { StatusBar } from "react-native";
 
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SelectedScooterSheet from "@/components/SelectedScooterSheet";
+import CategoriesProvider from "@/providers/CategoriesProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
 	return (
-		<ScooterProvider>
-			<GestureHandlerRootView style={{ flex: 1 }}>
-				<Map />
-				<SelectedScooterSheet />
+		<CategoriesProvider>
+			<ScooterProvider>
+				<GestureHandlerRootView style={{ flex: 1 }}>
+					<Map />
+					<SelectedScooterSheet />
 
-				<StatusBar barStyle="light-content" />
-			</GestureHandlerRootView>
-		</ScooterProvider>
+					<StatusBar barStyle="light-content" />
+				</GestureHandlerRootView>
+			</ScooterProvider>
+		</CategoriesProvider>
 	);
 }

@@ -10,4 +10,12 @@ export async function getDirections(from: any, to: any) {
 	return data;
 }
 
+export async function getAllPlaces() {
+	const response = await fetch(
+		`https://api.mapbox.com/search/searchbox/v1/list/category?access_token=${MAP_BOX_TOKEN}`
+	);
+	const data = await response.json();
 
+	console.log(JSON.stringify(data, null, 2));
+	return data;
+}
