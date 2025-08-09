@@ -8,6 +8,11 @@ export default function CategoryProvider({
 	children,
 }: {
 	children: React.ReactNode;
+
+
+
+
+	
 }) {
 	const [selectedCategory, setSelectedCategory] = useState<any>(null);
 	const [direction, setDirection] = useState<any>();
